@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use Kopist or the Agent Content Trust specification in research, please cite it as below."
+title: "Kopist: a local-first content trust gateway for AI agents"
+abstract: >-
+  Kopist reconstructs web content for AI agents instead of forwarding it, labels every output with
+  provenance and trust information, issues signed content receipts, and enforces default-deny egress.
+  It includes the Agent Content Trust specification for labels and receipts.
+type: software
+authors:
+  - name: "The Kopist Authors"
+repository-code: "https://github.com/kwdwetz/gateway"
+license: Apache-2.0
+keywords:
+  - prompt injection
+  - AI agents
+  - content disarm and reconstruction
+  - provenance
+  - AI security

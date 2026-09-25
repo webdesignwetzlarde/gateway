@@ -1,0 +1,30 @@
+# Rust
+/target/
+**/*.rs.bk
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+dist/
+*.egg-info/
+
+# Node
+node_modules/
+
+# Editors and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Benchmark output
+/bench/results/local/
+
+# Local secrets and keys
+.env
+*.key
+*.pem

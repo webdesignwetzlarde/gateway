@@ -1,0 +1,11 @@
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+
+# Attack samples must never be normalized by git.
+bench/corpus/** -text linguist-vendored

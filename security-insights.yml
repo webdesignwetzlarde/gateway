@@ -1,0 +1,44 @@
+header:
+  schema-version: 2.2.0
+  last-updated: '2026-09-25'
+  last-reviewed: '2026-09-25'
+  url: https://github.com/kwdwetz/gateway/blob/main/security-insights.yml
+  comment: |
+    Single-repository Security Insights file for Kopist (working title "gateway").
+    The project is in its design phase and has no releases yet.
+
+project:
+  name: Kopist
+  administrators:
+    - name: kwdwetz
+      social: https://github.com/kwdwetz
+      primary: true
+  repositories:
+    - name: kopist
+      url: https://github.com/kwdwetz/gateway
+      comment: |
+        Main repository: concept documentation, specification drafts and, later, the reference
+        implementation.
+  vulnerability-reporting:
+    reports-accepted: true
+    bug-bounty-available: false
+    policy: https://github.com/kwdwetz/gateway/blob/main/SECURITY.md
+
+repository:
+  url: https://github.com/kwdwetz/gateway
+  status: active
+  accepts-change-request: true
+  accepts-automated-change-request: true
+  core-team:
+    - name: kwdwetz
+      social: https://github.com/kwdwetz
+      primary: true
+  license:
+    url: https://github.com/kwdwetz/gateway/blob/main/LICENSE
+    expression: Apache-2.0 AND CC-BY-4.0
+  security:
+    assessments:
+      self:
+        comment: |
+          The threat model is published in docs/threat-model.md and is open for public review.
+          No code exists yet, so no code-level self-assessment has been performed.
