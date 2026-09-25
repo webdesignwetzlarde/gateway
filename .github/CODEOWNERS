@@ -1,0 +1,6 @@
+# Review ownership. See MAINTAINERS.md.
+*                 @kwdwetz
+/spec/            @kwdwetz
+/.github/         @kwdwetz
+/SECURITY.md      @kwdwetz
+/GOVERNANCE.md    @kwdwetz

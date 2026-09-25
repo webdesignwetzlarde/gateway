@@ -1,0 +1,33 @@
+name: Bug report
+description: Something in the documentation, specification or (later) the software is wrong.
+labels: ["kind/bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Security vulnerabilities must not be reported here. Use private reporting (see SECURITY.md).
+  - type: textarea
+    id: what
+    attributes:
+      label: What is wrong?
+      description: Describe the problem and where you found it (file, section, command).
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce
+      description: Steps, versions, configuration. Leave empty for documentation issues.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues.
+          required: true

@@ -1,0 +1,13 @@
+[files]
+extend-exclude = [
+  "LICENSES/",
+  "LICENSE",
+  # German summaries are not checked by an English spell checker.
+  "docs/de/",
+  "bench/corpus/",
+]
+
+[default.extend-words]
+# CBOR Object Signing and Encryption (RFC 9052)
+COSE = "COSE"
+cose = "cose"

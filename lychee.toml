@@ -1,0 +1,12 @@
+# Link checker configuration, see https://lychee.cli.rs
+# Pull requests run offline (local files and anchors only); the weekly job checks external links.
+include_fragments = "full"
+max_retries = 3
+accept = ["200..=299", "429"]
+exclude = [
+  '^https?://127\.0\.0\.1',
+  '^https?://localhost',
+  '\.invalid(/|$)',
+  '^https?://example\.com',
+]
+exclude_path = ["(^|/)LICENSES/", "(^|/)bench/corpus/"]

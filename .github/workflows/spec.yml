@@ -1,0 +1,52 @@
+name: Spec
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  schemas:
+    name: Schemas and examples
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      SPEC_DIR: spec/agent-content-trust/v0.1-draft
+    steps:
+      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - name: Install tools
+        run: python -m pip install --require-hashes --no-deps -r .github/requirements/ci-tools.txt
+      - name: Check schemas against the JSON Schema metaschema
+        run: check-jsonschema --check-metaschema "$SPEC_DIR"/schemas/*.json
+      - name: Validate examples
+        run: |
+          check-jsonschema --base-uri "file://$PWD/$SPEC_DIR/schemas/label.schema.json" \
+            --schemafile "$SPEC_DIR/schemas/label.schema.json" "$SPEC_DIR/examples/label.example.json"
+          check-jsonschema --base-uri "file://$PWD/$SPEC_DIR/schemas/receipt.schema.json" \
+            --schemafile "$SPEC_DIR/schemas/receipt.schema.json" "$SPEC_DIR/examples/receipt.unsigned.example.json"
+      - name: Check label size limit (1024 bytes)
+        run: |
+          python - <<'PY'
+          import json, os, sys
+          path = os.path.join(os.environ["SPEC_DIR"], "examples", "label.example.json")
+          size = len(json.dumps(json.load(open(path)), separators=(",", ":")).encode())
+          print(f"{path}: {size} bytes")
+          sys.exit(0 if size <= 1024 else 1)
+          PY

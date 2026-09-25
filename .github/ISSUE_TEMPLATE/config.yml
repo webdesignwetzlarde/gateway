@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/kwdwetz/gateway/security/advisories/new
+    about: Please report vulnerabilities privately. See SECURITY.md.
+  - name: Questions and ideas
+    url: https://github.com/kwdwetz/gateway/discussions
+    about: Ask questions and discuss ideas in GitHub Discussions.

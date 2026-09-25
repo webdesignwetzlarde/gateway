@@ -1,0 +1,17 @@
+config:
+  default: true
+  # Prose is wrapped by hand; tables and links make a hard limit impractical.
+  MD013: false
+  # Table pipe alignment is cosmetic and noisy in diffs.
+  MD060: false
+  # Allow repeated headings in different sections (for example "Consequences" in ADRs).
+  MD024:
+    siblings_only: true
+globs:
+  - "**/*.md"
+ignores:
+  - "node_modules/**"
+  - "target/**"
+  - "bench/corpus/**"
+  # CLAUDE.md only imports AGENTS.md and intentionally has no heading.
+  - "CLAUDE.md"

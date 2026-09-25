@@ -1,0 +1,47 @@
+name: Design proposal
+description: Propose a significant or cross-cutting change (architecture, specification, governance).
+labels: ["kind/design", "needs-discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Design proposals stay open for at least 14 days (7 days for small specification changes).
+        Accepted proposals are recorded as ADRs in docs/adr/.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Architecture
+        - Threat model
+        - Specification (Agent Content Trust)
+        - Security process
+        - Governance
+        - Evaluation and corpus
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and problem
+      description: What is the problem? Link sources for factual claims.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+    validations:
+      required: true
+  - type: textarea
+    id: consequences
+    attributes:
+      label: Consequences
+      description: Security impact, compatibility, effort, what gets harder.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

@@ -1,0 +1,90 @@
+name: Attack technique for the corpus
+description: Contribute a publicly documented technique that manipulates AI agents through content.
+labels: ["corpus"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Only publicly documented techniques belong here. Undisclosed vulnerabilities in
+        third-party products go to their vendors; vulnerabilities in Kopist go through SECURITY.md.
+        Detector evasions against Kopist are welcome here: they become regression cases.
+  - type: input
+    id: name
+    attributes:
+      label: Technique name
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Public source
+      description: Link to the paper, advisory or write-up that documents the technique.
+    validations:
+      required: true
+  - type: dropdown
+    id: class
+    attributes:
+      label: Attack class (see docs/threat-model.md)
+      options:
+        - AC-01 Hidden text in HTML
+        - AC-02 Invisible Unicode
+        - AC-03 URL fragments or parameters
+        - AC-04 Cloaking
+        - AC-05 Visible instructions
+        - AC-06 Image scaling
+        - AC-07 Text or semantics in images
+        - AC-08 Steganography
+        - AC-09 PDF hidden or active content
+        - AC-10 Office documents
+        - AC-11 Metadata payloads
+        - AC-12 Exfiltration through rendered output
+        - AC-13 Exfiltration through tool calls or requests
+        - AC-14 Agent configuration writes
+        - AC-15 MCP tool poisoning or rug pull
+        - AC-16 Malicious skills or packages
+        - AC-17 Agent-to-agent channels
+        - AC-18 Training or retrieval poisoning
+        - New class (explain below)
+    validations:
+      required: true
+  - type: dropdown
+    id: format
+    attributes:
+      label: Content format
+      multiple: true
+      options:
+        - HTML
+        - PDF
+        - Image
+        - Office document
+        - JSON or MCP result
+        - Code or repository
+        - Audio or video
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: How it works
+    validations:
+      required: true
+  - type: textarea
+    id: sample
+    attributes:
+      label: Minimal harmless sample
+      description: |
+        A minimal example. Use reserved domains such as example.com for any exfiltration target.
+        No live payloads, malware, credentials or personal data.
+      render: text
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Rules
+      options:
+        - label: The technique is publicly documented and the source is linked.
+          required: true
+        - label: The sample is harmless outside a test harness and contains no personal data.
+          required: true
+        - label: I agree that the sample is published under Apache-2.0.
+          required: true
