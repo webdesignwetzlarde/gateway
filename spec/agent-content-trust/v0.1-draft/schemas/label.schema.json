@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec-domain.invalid/agent-content-trust/v0.1-draft/label.schema.json",
+  "title": "Agent Content Trust label, v0.1 draft",
+  "description": "Compact trust label delivered with content to an AI agent. Unknown members are ignored unless listed in crit.",
+  "allOf": [
+    { "$ref": "#/$defs/labelBody" },
+    { "required": ["receipt"] }
+  ],
+  "$defs": {
+    "labelBody": {
+      "type": "object",
+      "required": ["v", "src", "integrity", "confidentiality", "form"],
+      "properties": {
+        "v": { "const": "0.1" },
+        "src": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^[^#]*$",
+          "maxLength": 512
+        },
+        "integrity": {
+          "enum": ["trusted", "endorsed", "untrusted", "suspect", "quarantined"]
+        },
+        "confidentiality": {
+          "enum": ["public", "internal", "confidential", "secret"]
+        },
+        "form": {
+          "enum": ["raw", "reconstructed", "typed", "summary"]
+        },
+        "findings": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/category" },
+          "additionalProperties": { "type": "integer", "minimum": 1 }
+        },
+        "usage": { "type": "string", "maxLength": 128 },
+        "receipt": {
+          "type": "object",
+          "required": ["digest"],
+          "properties": {
+            "digest": { "$ref": "#/$defs/prefixedDigest" },
+            "uri": { "type": "string", "format": "uri", "maxLength": 256 }
+          }
+        },
+        "issuer": { "$ref": "#/$defs/keyId" },
+        "crit": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "category": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,63}$"
+    },
+    "prefixedDigest": {
+      "type": "string",
+      "pattern": "^(sha256|sha384|sha512|sha3-256|blake3):[0-9a-f]{64,128}$"
+    },
+    "keyId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+:[0-9a-f]{64}$"
+    }
+  }
+}

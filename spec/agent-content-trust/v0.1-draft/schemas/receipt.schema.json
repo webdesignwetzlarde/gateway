@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec-domain.invalid/agent-content-trust/v0.1-draft/receipt.schema.json",
+  "title": "Agent Content Trust receipt statement, v0.1 draft (unsigned)",
+  "description": "An in-toto Statement v1 with the Agent Content Trust receipt predicate. In transport it is wrapped in a DSSE envelope.",
+  "type": "object",
+  "required": ["_type", "subject", "predicateType", "predicate"],
+  "properties": {
+    "_type": { "const": "https://in-toto.io/Statement/v1" },
+    "subject": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "digest"],
+        "properties": {
+          "name": { "type": "string" },
+          "digest": { "$ref": "#/$defs/digestSet" }
+        }
+      },
+      "contains": {
+        "type": "object",
+        "properties": { "name": { "const": "output" } },
+        "required": ["name"]
+      }
+    },
+    "predicateType": {
+      "const": "https://spec-domain.invalid/agent-content-trust/receipt/v0.1-draft"
+    },
+    "predicate": { "$ref": "#/$defs/predicate" }
+  },
+  "$defs": {
+    "digestSet": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "enum": ["sha256", "sha384", "sha512", "sha3-256", "blake3"] },
+      "additionalProperties": { "type": "string", "pattern": "^[0-9a-f]{64,128}$" }
+    },
+    "prefixedDigest": {
+      "type": "string",
+      "pattern": "^(sha256|sha384|sha512|sha3-256|blake3):[0-9a-f]{64,128}$"
+    },
+    "nameVersion": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" }
+      }
+    },
+    "predicate": {
+      "type": "object",
+      "required": ["actVersion", "label", "sources", "pipeline", "transforms", "findings"],
+      "properties": {
+        "actVersion": { "const": "0.1-draft" },
+        "label": {
+          "$ref": "label.schema.json#/$defs/labelBody",
+          "not": { "required": ["receipt"] }
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source" }
+        },
+        "usageDecision": {
+          "type": "object",
+          "required": ["mode", "outcome"],
+          "properties": {
+            "mode": { "enum": ["agent", "crawler"] },
+            "robots": { "enum": ["allow", "disallow", "absent"] },
+            "signal": { "type": "string", "maxLength": 256 },
+            "outcome": { "enum": ["allow", "deny"] }
+          }
+        },
+        "pipeline": {
+          "type": "object",
+          "required": ["implementation", "profile", "policyDigest", "isolationTier"],
+          "properties": {
+            "implementation": { "$ref": "#/$defs/nameVersion" },
+            "profile": { "type": "string" },
+            "policyDigest": { "$ref": "#/$defs/prefixedDigest" },
+            "isolationTier": { "enum": ["T0", "T1", "T2", "T3"] },
+            "components": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/nameVersion" }
+            }
+          }
+        },
+        "transforms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["op", "count"],
+            "properties": {
+              "op": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" },
+              "count": { "type": "integer", "minimum": 0 },
+              "detail": { "type": "string", "maxLength": 512 }
+            }
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["category", "detector", "score"],
+            "properties": {
+              "category": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" },
+              "detector": { "$ref": "#/$defs/nameVersion" },
+              "score": { "type": "number", "minimum": 0, "maximum": 1 },
+              "taxonomy": { "type": "array", "items": { "type": "string" } },
+              "spans": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "irDigest": { "$ref": "#/$defs/prefixedDigest" },
+        "blocksMerkleRoot": { "$ref": "#/$defs/prefixedDigest" },
+        "upstreamProvenance": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "result"],
+            "properties": {
+              "type": { "enum": ["c2pa", "sri", "signature"] },
+              "result": { "enum": ["valid", "invalid", "absent"] },
+              "detail": { "type": "string", "maxLength": 512 }
+            }
+          }
+        },
+        "parents": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/prefixedDigest" }
+        },
+        "crit": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["uri", "retrievedAt", "view", "digest"],
+      "properties": {
+        "uri": { "type": "string", "format": "uri" },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "view": { "enum": ["declared", "browser", "upload", "mcp", "a2a"] },
+        "status": { "type": "integer", "minimum": 100, "maximum": 599 },
+        "contentType": { "type": "string" },
+        "digest": { "$ref": "#/$defs/prefixedDigest" },
+        "redirects": {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" }
+        },
+        "tlsSpkiDigest": { "$ref": "#/$defs/prefixedDigest" },
+        "identityKeyId": { "type": "string" }
+      }
+    }
+  }
+}

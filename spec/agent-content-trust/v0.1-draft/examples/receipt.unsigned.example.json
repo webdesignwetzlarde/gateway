@@ -1,0 +1,107 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "output",
+      "digest": {
+        "sha256": "b4511965823eca7b96eca96edb668682e5404f6c05f3c439867e56161b8cf14d"
+      }
+    },
+    {
+      "name": "ir",
+      "digest": {
+        "sha256": "36ea0fb3276d213d59f6803fb79b6fba604d9da22ac007e2fb146bf0c4f52080"
+      }
+    }
+  ],
+  "predicateType": "https://spec-domain.invalid/agent-content-trust/receipt/v0.1-draft",
+  "predicate": {
+    "actVersion": "0.1-draft",
+    "label": {
+      "v": "0.1",
+      "src": "https://example.com/articles/solar-installers",
+      "integrity": "suspect",
+      "confidentiality": "public",
+      "form": "reconstructed",
+      "findings": {
+        "hidden-text": 2,
+        "unicode-smuggling": 1,
+        "instruction-like": 1
+      },
+      "usage": "train-ai=n",
+      "issuer": "ed25519:b669890eb4cbebb22296f6e607a1a56ef63a8314104599a6cd8f581c17367927"
+    },
+    "sources": [
+      {
+        "uri": "https://example.com/articles/solar-installers",
+        "retrievedAt": "2026-09-25T09:14:03Z",
+        "view": "declared",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "digest": "sha256:6f74b2cd19cfe4b9365c4ce00ede49aec9e0a67e9acc17794120c4c7fe8ecbcc",
+        "redirects": ["http://example.com/articles/solar-installers"],
+        "tlsSpkiDigest": "sha256:7179e9a95063f8924a3a668b30a34f0eaa773af3ab1cf5746581667fba7a6c1b",
+        "identityKeyId": "ed25519:b669890eb4cbebb22296f6e607a1a56ef63a8314104599a6cd8f581c17367927"
+      },
+      {
+        "uri": "https://example.com/articles/solar-installers",
+        "retrievedAt": "2026-09-25T09:14:04Z",
+        "view": "browser",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "digest": "sha256:e668daf53ff2a76ecb9309e2e7a603673001af44b7903c56a111f233b263d16c"
+      }
+    ],
+    "usageDecision": {
+      "mode": "agent",
+      "robots": "allow",
+      "signal": "train-ai=n",
+      "outcome": "allow"
+    },
+    "pipeline": {
+      "implementation": { "name": "kopist", "version": "0.1.0-example" },
+      "profile": "strict",
+      "policyDigest": "sha256:18ddfdb2ccbdbec548cf8c6e24b0b6b8f100e1b31bb53d069198fca21f1fbe5f",
+      "isolationTier": "T2",
+      "components": [
+        { "name": "kopist-html", "version": "0.1.0-example" },
+        { "name": "kopist-unicode", "version": "0.1.0-example" }
+      ]
+    },
+    "transforms": [
+      { "op": "strip-fragment", "count": 0 },
+      { "op": "remove-script", "count": 7 },
+      { "op": "remove-comment", "count": 3 },
+      { "op": "drop-hidden-text", "count": 2, "detail": "visibility method: rendered" },
+      { "op": "remove-unicode-tags", "count": 41 },
+      { "op": "normalize-links", "count": 12 }
+    ],
+    "findings": [
+      {
+        "category": "hidden-text",
+        "detector": { "name": "kopist-render-diff", "version": "0.1.0-example" },
+        "score": 1,
+        "taxonomy": ["OWASP-LLM01:2025", "OWASP-ASI01:2026", "ATLAS-AML.T0051"],
+        "spans": ["/html/body/div[3]/p[2]", "/html/body/footer/span"]
+      },
+      {
+        "category": "unicode-smuggling",
+        "detector": { "name": "kopist-unicode", "version": "0.1.0-example" },
+        "score": 1,
+        "taxonomy": ["OWASP-LLM01:2025"]
+      },
+      {
+        "category": "instruction-like",
+        "detector": { "name": "example-heuristics", "version": "0.1.0-example" },
+        "score": 0.72,
+        "taxonomy": ["OWASP-LLM01:2025"],
+        "spans": ["/html/body/main/p[5]"]
+      }
+    ],
+    "irDigest": "sha256:36ea0fb3276d213d59f6803fb79b6fba604d9da22ac007e2fb146bf0c4f52080",
+    "blocksMerkleRoot": "sha256:a803f6d8a67dd07cc1556ae6c65dbe264cf84b81f3f842dd914fddc077b4caf9",
+    "upstreamProvenance": [
+      { "type": "c2pa", "result": "absent" }
+    ]
+  }
+}

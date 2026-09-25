@@ -1,0 +1,18 @@
+{
+  "v": "0.1",
+  "src": "https://example.com/articles/solar-installers",
+  "integrity": "suspect",
+  "confidentiality": "public",
+  "form": "reconstructed",
+  "findings": {
+    "hidden-text": 2,
+    "unicode-smuggling": 1,
+    "instruction-like": 1
+  },
+  "usage": "train-ai=n",
+  "receipt": {
+    "digest": "sha256:9800e10456de4dd2c373b427f46c40892bed4c96f4343459acc295929f813a18",
+    "uri": "http://127.0.0.1:7878/v1/receipts/9800e10456de4dd2"
+  },
+  "issuer": "ed25519:b669890eb4cbebb22296f6e607a1a56ef63a8314104599a6cd8f581c17367927"
+}
